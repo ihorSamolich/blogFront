@@ -2,12 +2,13 @@
 
 import React, { useRef, useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
-import { ICategory, IPostCreate, ITag } from '@/interfaces';
+import { ICategory, IPost, IPostCreate, ITag } from '@/interfaces';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Editor as TinyMCEEditor } from 'tinymce';
 import { addPost } from '@/lib/data';
 import { handleImageUploadEditor } from '@/utils/handleImageUploadEditor';
 import MultiSelect from '@/components/MultiSelect';
+import { useRouter } from 'next/navigation';
 
 const TINY_KEY = process.env.NEXT_PUBLIC_TINY_KEY;
 const URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -20,6 +21,8 @@ interface ICreatePostFormProps {
 const CreatePostForm = ({ categories, tags }: ICreatePostFormProps) => {
 	const editorRef = useRef<TinyMCEEditor | null>(null);
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
+	const router = useRouter();
+	const [errorCreate, setErrorCreate] = useState<boolean>(false);
 
 	const {
 		register,
@@ -36,11 +39,28 @@ const CreatePostForm = ({ categories, tags }: ICreatePostFormProps) => {
 			};
 		}
 
-		const res = await addPost(data);
+		const res: IPost = await addPost(data);
+
+		if (res) {
+			setErrorCreate(false);
+			router.push(`/blog/${res.urlSlug}`);
+		} else {
+			setErrorCreate(true);
+		}
+	};
+
+	const handleChange = () => {
+		if (errorCreate) {
+			setErrorCreate(false);
+		}
 	};
 
 	return (
-		<form className='space-y-6' onSubmit={handleSubmit(onSubmit)}>
+		<form
+			className='space-y-6'
+			onChange={handleChange}
+			onSubmit={handleSubmit(onSubmit)}
+		>
 			<div>
 				<label
 					htmlFor='title'
@@ -181,6 +201,12 @@ const CreatePostForm = ({ categories, tags }: ICreatePostFormProps) => {
 					/>
 				</div>
 			</div>
+
+			{errorCreate && (
+				<p className='mt-2 text-center text-sm text-red-600'>
+					Помилка створення поста, перевірте введені дані!
+				</p>
+			)}
 
 			<div className='flex justify-center'>
 				<button
