@@ -191,6 +191,91 @@ const Header = () => {
 
 					<Disclosure.Panel className='md:hidden'>
 						<div className='space-y-1 px-2 pb-3 pt-2 sm:px-3'>
+							{user ? (
+								<div className='text-left'>
+									<div className='py-2 bg-amber-100 text-black block px-4 text-sm'>
+										<div className='flex gap-3 justify-center items-center'>
+											<svg
+												xmlns='http://www.w3.org/2000/svg'
+												fill='none'
+												viewBox='0 0 24 24'
+												strokeWidth={1.5}
+												stroke='currentColor'
+												className='w-6 h-6'
+											>
+												<path
+													strokeLinecap='round'
+													strokeLinejoin='round'
+													d='M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z'
+												/>
+											</svg>
+											<p className='font-bold'>{user.name}</p>
+										</div>
+									</div>
+
+									<Link
+										href={'/blog/create'}
+										className='py-2 text-gray-700 block px-4 text-sm'
+									>
+										<div className='flex gap-3 items-center'>
+											<svg
+												xmlns='http://www.w3.org/2000/svg'
+												fill='none'
+												viewBox='0 0 24 24'
+												strokeWidth={1.5}
+												stroke='currentColor'
+												className='w-6 h-6'
+											>
+												<path
+													strokeLinecap='round'
+													strokeLinejoin='round'
+													d='m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125'
+												/>
+											</svg>
+											<p className='font-bold'>Create new post</p>
+										</div>
+									</Link>
+
+									<button
+										onClick={logout}
+										className='py-2 text-gray-700 block px-4 text-sm'
+									>
+										<div className='flex gap-3 items-center'>
+											<svg
+												xmlns='http://www.w3.org/2000/svg'
+												fill='none'
+												viewBox='0 0 24 24'
+												strokeWidth={1.5}
+												stroke='currentColor'
+												className='w-6 h-6'
+											>
+												<path
+													strokeLinecap='round'
+													strokeLinejoin='round'
+													d='M5.636 5.636a9 9 0 1 0 12.728 0M12 3v9'
+												/>
+											</svg>
+
+											<p className='font-bold'>Exit</p>
+										</div>
+									</button>
+								</div>
+							) : (
+								<Link href={'/login'} className=''>
+									<div className='flex justify-center gap-3 items-center'>
+										<div className='relative w-9 h-9'>
+											<Image
+												src='/login.png'
+												alt='Rounded avatar'
+												fill
+												sizes={'50'}
+											/>
+										</div>
+										<p className='font-bold'>Login</p>
+									</div>
+								</Link>
+							)}
+
 							{navigation.map(item => (
 								<Link
 									key={item.name}

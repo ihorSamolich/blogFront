@@ -46,7 +46,7 @@ export default async function RootLayout({
 				<div className='flex h-screen flex-col justify-between'>
 					<UserProvider defaultUser={getUser()}>
 						<Header />
-						<main className='mb-auto'>{children}</main>
+						<main className='mb-auto px-4'>{children}</main>
 					</UserProvider>
 					<Footer />
 				</div>
